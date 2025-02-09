@@ -147,3 +147,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please open an issue in the GitHub repository.
 
+# Run all tests
+./mvnw test
+
+# Run specific test class
+./mvnw test -Dtest=UserIntegrationTest
+
+# Run with coverage report
+./mvnw test jacoco:report
