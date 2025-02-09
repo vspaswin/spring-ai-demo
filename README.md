@@ -147,11 +147,118 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please open an issue in the GitHub repository.
 
-# Run all tests
-./mvnw test
+## SonarQube
 
-# Run specific test class
-./mvnw test -Dtest=UserIntegrationTest
+To run SonarQube analysis:
 
-# Run with coverage report
-./mvnw test jacoco:report
+1. Start SonarQube container:
+
+```bash
+docker-compose -f docker-compose-sonar.yml up -d
+```
+
+2. Run SonarQube analysis:
+
+```bash
+./mvnw sonar:sonar
+```
+
+3. Access SonarQube at `http://localhost:9000`
+
+4. Generate a token in SonarQube:
+
+```bash
+docker exec -it sonarqube sonar-scanner -Dsonar.login=<your_token>
+```
+
+5. Run SonarQube analysis:
+
+```bash
+./mvnw sonar:sonar
+```
+
+## SonarQube Analysis
+
+### Local Setup
+
+1. Start SonarQube:
+```bash
+# Start SonarQube and PostgreSQL
+docker-compose -f docker-compose-sonar.yml up -d
+
+# Wait for SonarQube to start (usually takes 1-2 minutes)
+```
+
+2. Access SonarQube:
+   - URL: http://localhost:9000
+   - Default credentials: admin/admin
+   - Change password when prompted
+
+3. Generate Token:
+   - Go to User → My Account → Security
+   - Generate new token
+   - Save token in `.env` file
+
+4. Run Analysis:
+```bash
+# Using env file
+export $(cat .env | xargs) && mvn clean verify sonar:sonar
+
+# Or Windows PowerShell
+Get-Content .env | ForEach-Object { $env:$($_.Split('=')[0])=$_.Split('=')[1] }; mvn clean verify sonar:sonar
+```
+
+5. View Reports:
+   - Go to http://localhost:9000/projects
+   - Select your project
+   - View Code Coverage, Code Smells, Bugs, etc.
+
+### Cleanup
+```bash
+# Stop SonarQube
+docker-compose -f docker-compose-sonar.yml down -v
+```
+
+## SonarQube Analysis
+
+To run SonarQube analysis:
+
+1. Start SonarQube container:
+
+```bash
+docker-compose -f docker-compose-sonar.yml up -d
+```
+
+2. Run SonarQube analysis:
+
+```bash
+./mvnw sonar:sonar
+```
+
+3. Access SonarQube at `http://localhost:9000`
+
+4. Generate a token in SonarQube:
+
+```bash
+docker exec -it sonarqube sonar-scanner -Dsonar.login=<your_token>
+```
+
+5. Run SonarQube analysis:
+
+```bash
+./mvnw sonar:sonar
+```
+
+## SonarQube Analysis
+
+To run SonarQube analysis:
+
+1. Start SonarQube container:
+
+```bash
+docker-compose -f docker-compose-sonar.yml up -d
+```
+
+2. Run SonarQube analysis:
+
+    

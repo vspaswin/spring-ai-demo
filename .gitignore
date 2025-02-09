@@ -37,3 +37,4 @@ postgres_data/
 
 ### Environment Variables ###
 .env
+sonar.properties
