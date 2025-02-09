@@ -1,0 +1,35 @@
+# filepath: /Users/vspaswin/develop/spring-ai-demo/docker-compose.yml
+services:
+  spring-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/your_db_name
+      SPRING_DATASOURCE_USERNAME: your_db_user
+      SPRING_DATASOURCE_PASSWORD: your_db_password
+    depends_on:
+      db:
+        condition: service_healthy
+    platform: linux/arm64/v8
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: your_db_name
+      POSTGRES_USER: your_db_user
+      POSTGRES_PASSWORD: your_db_password
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your_db_user -d your_db_name"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

@@ -1,0 +1,12 @@
+# filepath: /Users/vspaswin/develop/spring-ai-demo/src/main/resources/application.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/your_db_name
+    username: your_db_user
+    password: your_db_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
