@@ -1,21 +1,22 @@
 # filepath: /Users/vspaswin/develop/spring-ai-demo/docker-compose.yml
-version: '3.8'
 services:
-  spring-app:
+  user-management-api:
+    container_name: user-management-api
     build: .
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/your_db_name
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-management-db:5432/your_db_name
       SPRING_DATASOURCE_USERNAME: your_db_user
       SPRING_DATASOURCE_PASSWORD: your_db_password
     depends_on:
-      db:
+      user-management-db:
         condition: service_healthy
     networks:
-      - spring-network
+      - user-management-network
 
-  db:
+  user-management-db:
+    container_name: user-management-db
     image: postgres:15-alpine
     environment:
       POSTGRES_DB: your_db_name
@@ -29,13 +30,13 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - user-management-data:/var/lib/postgresql/data
     networks:
-      - spring-network
+      - user-management-network
 
 volumes:
-  postgres_data:
+  user-management-data:
 
 networks:
-  spring-network:
+  user-management-network:
     driver: bridge
