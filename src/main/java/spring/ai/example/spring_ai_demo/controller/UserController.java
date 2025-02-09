@@ -13,9 +13,15 @@ import spring.ai.example.spring_ai_demo.dto.UserDTO;
 import spring.ai.example.spring_ai_demo.model.User;
 import spring.ai.example.spring_ai_demo.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "User Management", description = "APIs for managing users")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -24,6 +30,8 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @Operation(summary = "Get all users")
+    @ApiResponse(responseCode = "200", description = "List of users retrieved")
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<UserDTO>>> getAllUsers(
             @RequestParam(required = false) String name,
@@ -58,6 +66,9 @@ public class UserController {
         ));
     }
 
+    @Operation(summary = "Create a new user")
+    @ApiResponse(responseCode = "201", description = "User created successfully")
+    @ApiResponse(responseCode = "400", description = "Invalid input")
     @PostMapping
     public ResponseEntity<EntityModel<UserDTO>> createUser(@Valid @RequestBody UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
@@ -79,6 +90,9 @@ public class UserController {
             .body(resource);
     }
 
+    @Operation(summary = "Get user by ID")
+    @ApiResponse(responseCode = "200", description = "User found")
+    @ApiResponse(responseCode = "404", description = "User not found")
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<UserDTO>> getUserById(@PathVariable Long id) {
         return userRepository.findById(id)
@@ -91,6 +105,9 @@ public class UserController {
             .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Update user")
+    @ApiResponse(responseCode = "200", description = "User updated successfully")
+    @ApiResponse(responseCode = "404", description = "User not found")
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<UserDTO>> updateUser(
             @PathVariable Long id,
@@ -122,6 +139,9 @@ public class UserController {
             .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Delete user")
+    @ApiResponse(responseCode = "204", description = "User deleted successfully")
+    @ApiResponse(responseCode = "404", description = "User not found")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         return userRepository.findById(id)

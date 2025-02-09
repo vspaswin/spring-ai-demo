@@ -1,4 +1,5 @@
 # filepath: /Users/vspaswin/develop/spring-ai-demo/docker-compose.yml
+version: '3.8'
 services:
   spring-app:
     build: .
@@ -11,8 +12,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    platform: linux/arm64/v8
-    restart: unless-stopped
+    networks:
+      - spring-network
 
   db:
     image: postgres:15-alpine
@@ -29,7 +30,12 @@ services:
       retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
+    networks:
+      - spring-network
 
 volumes:
   postgres_data:
+
+networks:
+  spring-network:
+    driver: bridge

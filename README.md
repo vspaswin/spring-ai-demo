@@ -130,6 +130,20 @@ Stop the application:
 ```bash
 docker-compose down
 ```
+# Stop current containers
+docker-compose down
+
+# Rebuild with new changes
+docker-compose build --no-cache
+
+# Start containers
+docker-compose up -d
+
+# View logs (optional)
+docker-compose logs -f
+
+# Check if containers are running
+docker-compose ps
 
 ## Contributing
 
