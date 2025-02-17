@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_spring_ai_demo_1739805933960-pr-trigger-input-set
+  identifier: Build_spring_ai_demo_1739805933960prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_spring_ai_demo_1739805933960
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
