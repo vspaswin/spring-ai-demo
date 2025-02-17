@@ -24,7 +24,7 @@ pipeline:
           org: default
           caching:
             enabled: true
-          cloneCodebase: true
+          cloneCodebase: false
           execution:
             steps:
               - step:
