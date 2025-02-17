@@ -1,0 +1,38 @@
+pipeline:
+  name: spring ai demo
+  identifier: spring_ai_demo
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: GitHubKarate
+        repoName: spring-ai-demo
+        build: <+input>
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Arm64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: org.harnessspringai
+                    repo: vspaswin/spring-ai-demo
+                    tags:
+                      - latest
+                    caching: false
