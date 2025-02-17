@@ -3,53 +3,35 @@ pipeline:
   name: Build spring-ai-demo
   orgIdentifier: default
   projectIdentifier: default_project
-  properties:
-    ci:
-      codebase:
-        build: <+input>
-        connectorRef: GitHubKarate
-        repoName: spring-ai-demo
   stages:
     - stage:
-        identifier: build
         name: build
+        identifier: GitClone
+        description: ""
         type: CI
-        failureStrategies:
-          - onFailure:
-              action:
-                type: MarkAsFailure
-              errors:
-                - Unknown
         spec:
-          org: default
-          caching:
-            enabled: true
           cloneCodebase: false
-          execution:
-            steps:
-              - step:
-                  identifier: docker_compose
-                  type: Run
-                  name: Docker Compose Up
-                  spec:
-                    connectorRef: <+input>
-                    command: |
-                      docker-compose up --build -d
-                    type: Run
-                  timeout: ""
-              - step:
-                  identifier: runTests
-                  type: Test
-                  name: Run Tests
-                  spec:
-                    connectorRef: <+input>
-                    command: mvn test
-                    testReportPaths:
-                      - target/surefire-reports/**/*
-                    type: Run
           platform:
-            os: MacOS
+            os: Linux
             arch: Arm64
           runtime:
             type: Docker
             spec: {}
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
+                  spec:
+                    connectorRef: GitHubKarate
+                    repoName: spring-ai-demo
+                    build:
+                      type: branch
+                      spec:
+                        branch: feature/harness
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
