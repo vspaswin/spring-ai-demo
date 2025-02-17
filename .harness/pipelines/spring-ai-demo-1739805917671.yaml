@@ -32,9 +32,10 @@ pipeline:
                   spec:
                     caching: true
                     connectorRef: <+input>
-                    repo: hello/world
+                    repo: vspaswin/spring-ai-demo-app
                     tags:
                       - latest
+                    dockerfile: src/main/docker/Dockerfile
                   timeout: ""
                   type: BuildAndPushDockerRegistry
           platform:
