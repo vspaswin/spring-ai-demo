@@ -13,35 +13,43 @@ pipeline:
     - stage:
         identifier: build
         name: build
+        type: CI
+        failureStrategies:
+          - onFailure:
+              action:
+                type: MarkAsFailure
+              errors:
+                - Unknown
         spec:
+          org: default
           caching:
             enabled: true
-          cloneCodebase: false
+          cloneCodebase: true
           execution:
             steps:
               - step:
-                  identifier: echo
-                  name: echo
-                  spec:
-                    command: echo hello world
-                  timeout: ""
+                  identifier: docker_compose
                   type: Run
-              - step:
-                  identifier: dockerbuild
-                  name: docker_build
+                  name: Docker Compose Up
                   spec:
-                    caching: true
                     connectorRef: <+input>
-                    repo: vspaswin/spring-ai-demo-app
-                    tags:
-                      - latest
-                    dockerfile: src/main/docker/Dockerfile
+                    command: |
+                      docker-compose up --build -d
+                    type: Run
                   timeout: ""
-                  type: BuildAndPushDockerRegistry
+              - step:
+                  identifier: runTests
+                  type: Test
+                  name: Run Tests
+                  spec:
+                    connectorRef: <+input>
+                    command: mvn test
+                    testReportPaths:
+                      - target/surefire-reports/**/*
+                    type: Run
           platform:
-            arch: Arm64
             os: MacOS
+            arch: Arm64
           runtime:
-            spec: {}
             type: Docker
-        type: CI
+            spec: {}
