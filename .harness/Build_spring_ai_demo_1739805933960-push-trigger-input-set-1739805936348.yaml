@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_spring_ai_demo_1739805933960-push-trigger-input-set
+  identifier: Build_spring_ai_demo_1739805933960pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_spring_ai_demo_1739805933960
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
