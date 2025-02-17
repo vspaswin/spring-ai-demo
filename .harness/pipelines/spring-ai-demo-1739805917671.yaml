@@ -20,27 +20,32 @@ pipeline:
           execution:
             steps:
               - step:
-                  identifier: echo
-                  name: echo
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
                   spec:
-                    command: echo hello world
-                  timeout: ""
-                  type: Run
+                    connectorRef: GitHubKarate
+                    repoName: spring-ai-demo
+                    build:
+                      type: branch
+                      spec:
+                        branch: feature/harness
               - step:
                   identifier: dockerbuild
                   name: docker_build
                   spec:
-                    caching: true
                     connectorRef: <+input>
-                    repo: hello/world
+                    repo: vspaswin/spring-ai-demo
                     tags:
                       - latest
+                    caching: true
                   timeout: ""
                   type: BuildAndPushDockerRegistry
           platform:
+            os: Linux
             arch: Arm64
-            os: MacOS
           runtime:
-            spec: {}
             type: Docker
+            spec: {}
         type: CI
+        description: ""
