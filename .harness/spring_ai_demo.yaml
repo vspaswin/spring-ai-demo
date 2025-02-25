@@ -36,5 +36,3 @@ pipeline:
                     tags:
                       - latest
                     caching: false
-                    delegateSelectors:
-                      - docker-delegate
